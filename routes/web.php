@@ -13,17 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    dd('asd');
-});
-
 Route::post('/login', 'App\Http\Controllers\UserController@login');
 Route::post('/register', 'App\Http\Controllers\UserController@register');
-
-Route::get('/status', 'App\Http\Controllers\UserController@status');
 Route::post('/status', 'App\Http\Controllers\UserController@status');
 
 
 Route::get('/home', function () {
-    dd('home');
+    dd('Ni hao, 你好');
 });

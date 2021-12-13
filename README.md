@@ -1,66 +1,158 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# What was created/changed
+- [app/Http/Controllers/UserController.php](https://github.com/ryokochang/php_eng_code_test/blob/master/app/Providers/AuthServiceProvider.php)
+- [app/Http/Middleware/VerifyCsrfToken.php](https://github.com/ryokochang/php_eng_code_test/blob/master/app/Http/Middleware/VerifyCsrfToken.php)
+- [app/Policies/UserPolicy.php](https://github.com/ryokochang/php_eng_code_test/blob/master/app/Policies/UserPolicy.php)
+- [app/Providers/AuthServiceProvider.php](https://github.com/ryokochang/php_eng_code_test/blob/master/app/Providers/AuthServiceProvider.php)
+- [database/migrations/2021_12_12_005006_alter_users_add_role.php](https://github.com/ryokochang/php_eng_code_test/blob/master/database/migrations/2021_12_12_005006_alter_users_add_role.php)
+- [routes/web.php](https://github.com/ryokochang/php_eng_code_test/blob/master/routes/web.php)
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+I did all in one shot, so that why there is no history
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+# API documentation
+Handle login
+### '/login'
+**POST** Example request:
+```
+{
+    email: 'example@domain.com',
+    password: 'password'
+}
+```
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**POST** Example response:
+```
+{
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+}
+```
 
-## Learning Laravel
+Handle registration of new user
+### '/register'
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+**POST** Example request:
+```
+{
+    name: 'User Name',
+    email: 'example@domain.com',
+    password: 'password'
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+}
+```
 
-## Laravel Sponsors
+**POST** Example response:
+```
+{
+    Succeeded: 'User register successfully.'
+}
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
 
-### Premium Partners
+### '/status'
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[CMS Max](https://www.cmsmax.com/)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-- **[Romega Software](https://romegasoftware.com)**
+**POST** Example request:
+```
+{
 
-## Contributing
+}
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**POST** Example response:
+```
+{
 
-## Code of Conduct
+}
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
+# Code Design
+So I used the default user table and added two columns:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+role:
+admin - can set status of others users
+user - normal user
 
-## License
+status:
+approved - can access the system
+rejected - cannot access the system
+pending - the default status of every user created
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- app/Http/Controllers/UserController.php:
+>Because its only three functions, I put all together rather than separate controller by role.
+
+- app/Http/Middleware/VerifyCsrfToken.php:
+>Just to bypass CSRF checking for ease of testing on postman
+
+- app/Policies/UserPolicy.php:
+>Laravel uses policy to control permissions, So I created two function to validate login and status change
+
+- app/Providers/AuthServiceProvider.php:
+>Changed to register UserPolicy to User model
+
+- database/migrations/2021_12_12_005006_alter_users_add_role.php:
+>Used to register changes to the user table
+
+- routes/web.php:
+>Changed to register the routes created
+
+
+# Suggestion I added in Code
+I added the status pending ...
+Uses policy for permissions since its laravel's way and easily integrates with controllers
+Created role column to easily know who is admin and who is not
+
+
+# Code Review
+```
+<?php
+namespace App\Models\Bank;
+
+use Illuminate\Database\Eloquent\Model;
+use App\Models\Settlements;
+use App\Models\UserBalance;
+
+class Transaction extends Model
+{
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'transaction';
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+
+    public $timestamps = true;
+
+    // This function should be inside a try catch and doing a DB transaction so it can be rolled back. Because we are moving real money!
+    public function addDeposit($transactionId)
+    {
+        //Find can return null, so need to be checked before continuing this
+        $transaction = $this->find($transactionId);
+        $ownerId = $transaction->possible_user_id;
+
+        //same here as above
+        $userBank = UserBank::on($this->connection)
+            ->where(['user_id' => $ownerId, 'currency' => 'USD'])->first();
+        $settlements = new Settlements();
+
+        //two connections, I would double check this because this only work on microservice architecture
+        $settlements->setConnection('mysql_rds');
+        $settlements->user_id = $ownerId;
+        $settlements->settlement_id = Uuid::uuid4()
+            ->toString();
+        $settlements->settled_time = $transaction->payment_date;
+        $settlements->amount_received = $transaction->amount;
+        $settlements->destination_id = $userBank->id;
+        $settlements->note = 'Wire received';
+        $settlements->save();
+        $transaction->settlement_id = $settlements->settlement_id;
+        $transaction->save();
+        $userBalance = new UserBalance();
+        $userBalance->updateRow($settlements->user_id, $settlements->asset_received, $settlements->amount_received);
+    }
+}
+```
