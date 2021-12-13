@@ -10,36 +10,25 @@ I did all in one shot, so that why there is no history
 
 
 # API documentation
-Handle login
-### '/login'
-**POST** Example request:
-```
-{
-    email: 'example@domain.com',
-    password: 'password'
-}
-```
-
-**POST** Example response:
-```
-{
-
-}
-```
 
 Handle registration of new user
 ### '/register'
+
+| Parameter  |  Description  |
+| ------------------- | ------------------- |
+|  name  |  User name - Required |
+|  email  |  User email - Required, unique |
+|  password  |  User password - Required, Minimun lenght 8  |
 
 **POST** Example request:
 ```
 {
     name: 'User Name',
-    email: 'example@domain.com',
+    email: 'example@domain.com'
     password: 'password'
 
 }
 ```
-
 **POST** Example response:
 ```
 {
@@ -48,19 +37,42 @@ Handle registration of new user
 ```
 
 
-### '/status'
+Handle login
+### '/login'
+| Parameter  |  Description  |
+| ------------------- | ------------------- |
+|  name  |  User name - Required |
+|  password  |  User password - Required  |
 
 **POST** Example request:
 ```
 {
+    email: 'example@domain.com',
+    password: 'password'
+}
+```
 
+When you log in, the user are redirected to /home
+
+### '/status'
+
+| Parameter  |  Description  |
+| ------------------- | ------------------- |
+|  id  | User ID to change status  - Required |
+|  status  | Status to be applied to the user - Required, unique |
+
+**POST** Example request:
+```
+{
+    id: 'userId' | required
+    status: 'rejected or approved' | required
 }
 ```
 
 **POST** Example response:
 ```
 {
-
+    Succeeded: 'User status changed successfully.'
 }
 ```
 
@@ -68,14 +80,18 @@ Handle registration of new user
 # Code Design
 So I used the default user table and added two columns:
 
-role:
+### role:
 admin - can set status of others users
+
 user - normal user
 
-status:
+### status:
 approved - can access the system
+
 rejected - cannot access the system
+
 pending - the default status of every user created
+
 
 - app/Http/Controllers/UserController.php:
 >Because its only three functions, I put all together rather than separate controller by role.
