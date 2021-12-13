@@ -81,16 +81,16 @@ When you log in, the user are redirected to /home
 So I used the default user table and added two columns:
 
 ### role:
-admin - can set status of others users
+*admin* - can set status of others users
 
-user - normal user
+*user* - normal user
 
 ### status:
-approved - can access the system
+*approved* - can access the system
 
-rejected - cannot access the system
+*rejected* - cannot access the system
 
-pending - the default status of every user created and also cannot access the system
+*pending* - the default status of every user created and also cannot access the system
 
 
 - app/Http/Controllers/UserController.php:
@@ -100,7 +100,7 @@ pending - the default status of every user created and also cannot access the sy
 >Just to bypass CSRF checking for ease of testing on postman
 
 - app/Policies/UserPolicy.php:
->Laravel uses policy to control permissions, So I created two function to validate login and status change
+>Laravel uses policy to control permissions, So I applied it and created two functions to validate login and status change
 
 - app/Providers/AuthServiceProvider.php:
 >Changed to register UserPolicy to User model
@@ -114,12 +114,16 @@ pending - the default status of every user created and also cannot access the sy
 
 # Suggestion I added in Code
 I added the status pending ...
+
 Uses policy for permissions since its laravel's way and easily integrates with controllers
+
 Created role column to easily know who is admin and who is not
 
 
 # Code Review
-```
+I did the code review with comments
+
+```php
 <?php
 namespace App\Models\Bank;
 
