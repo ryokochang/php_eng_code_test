@@ -18,7 +18,7 @@ Handle registration of new user
 | ------------------- | ------------------- |
 |  name  |  User name - Required |
 |  email  |  User email - Required, unique |
-|  password  |  User password - Required, Minimun lenght 8  |
+|  password  |  User password - Required, Minimum length 8  |
 
 **POST** Example request:
 ```
@@ -90,7 +90,7 @@ approved - can access the system
 
 rejected - cannot access the system
 
-pending - the default status of every user created
+pending - the default status of every user created and also cannot access the system
 
 
 - app/Http/Controllers/UserController.php:
